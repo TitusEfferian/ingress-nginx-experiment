@@ -23,7 +23,7 @@ spec:
             name: container-b
             port:
               number: 80
-      - path: /c/bank
+      - path: /([a-zA-Z0-9-]+)/bank
         pathType: ImplementationSpecific
         backend:
           service:
