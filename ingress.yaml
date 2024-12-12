@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"  # Add this annotation
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /a
+        pathType: Prefix
+        backend:
+          service:
+            name: container-a
+            port:
+              number: 80
+      - path: /b
+        pathType: Prefix
+        backend:
+          service:
+            name: container-b
+            port:
+              number: 80
+      - path: /c/bank
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: container-c
+            port:
+              number: 80
+      

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: container-a
+spec:
+  selector:
+    matchLabels:
+      app: container-a
+  template:
+    metadata:
+      labels:
+        app: container-a
+    spec:
+      containers:
+      - name: container-a
+        image: nginx:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: container-b
+spec:
+  selector:
+    matchLabels:
+      app: container-b
+  template:
+    metadata:
+      labels:
+        app: container-b
+    spec:
+      containers:
+      - name: container-b
+        image: httpd:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: container-c
+spec:
+  selector:
+    matchLabels:
+      app: container-c
+  template:
+    metadata:
+      labels:
+        app: container-c
+    spec:
+      containers:
+      - name: container-c
+        image: ogajun/stub-container:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
