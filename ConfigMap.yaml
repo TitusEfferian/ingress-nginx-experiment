@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    events { }
+    http {
+      server {
+        listen 80;
+        location = / {
+          proxy_pass http://container-a:80/;
+        }
+        location /a {
+          proxy_pass http://container-a:80/;
+        }
+        location /b {
+          proxy_pass http://container-b:80/;
+        }
+        location /c {
+          proxy_pass http://container-c:80/;
+        }
+        location /d {
+          rewrite ^ / break;
+          proxy_pass https://google.com;
+        }
+      }
+    }

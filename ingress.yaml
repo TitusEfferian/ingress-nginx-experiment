@@ -1,33 +1,47 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: my-ingress
+# spec:
+#   rules:
+#   - host: localhost
+#     http:
+#       paths:
+#       - path: /a
+#         pathType: Exact
+#         backend:
+#           service:
+#             name: container-a
+#             port:
+#               number: 80
+#       - path: /b
+#         pathType: Exact
+#         backend:
+#           service:
+#             name: container-b
+#             port:
+#               number: 80
+#       - path: /c
+#         pathType: Exact
+#         backend:
+#           service:
+#             name: container-c
+#             port:
+#               number: 80
+# ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: my-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"  # Add this annotation
 spec:
   rules:
-  - host: localhost
+  - host: localhost  
     http:
       paths:
-      - path: /a
+      - path: /
         pathType: Prefix
         backend:
           service:
-            name: container-a
+            name: my-nginx 
             port:
               number: 80
-      - path: /b
-        pathType: Prefix
-        backend:
-          service:
-            name: container-b
-            port:
-              number: 80
-      - path: /([a-zA-Z0-9-]+)/bank
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: container-c
-            port:
-              number: 80
-      

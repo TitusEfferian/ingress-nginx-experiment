@@ -13,7 +13,10 @@ spec:
     spec:
       containers:
       - name: container-a
-        image: nginx:latest
+        image: ogajun/stub-container:latest
+        env:
+          - name: APP_NAME
+            value: "container-a"
         resources:
           limits:
             memory: "128Mi"
@@ -36,7 +39,10 @@ spec:
     spec:
       containers:
       - name: container-b
-        image: httpd:latest
+        image: ogajun/stub-container:latest
+        env:
+          - name: APP_NAME
+            value: "container-b"
         resources:
           limits:
             memory: "128Mi"
@@ -60,9 +66,44 @@ spec:
       containers:
       - name: container-c
         image: ogajun/stub-container:latest
+        env:
+          - name: APP_NAME
+            value: "container-c"
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
         - containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-nginx
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: nginx:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
