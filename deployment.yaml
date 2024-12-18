@@ -93,6 +93,14 @@ spec:
       containers:
       - name: my-nginx
         image: nginx:latest
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop: ["ALL"]
+          seccompProfile:
+            type: "RuntimeDefault"
         resources:
           limits:
             memory: "128Mi"
